@@ -12,3 +12,5 @@ __pycache__
 diffusion_solutions/data_ddim/
 diffusion_solutions/data_ddpm/
 diffusion_solutions/epoch_199.pth
+
+*.tgz
