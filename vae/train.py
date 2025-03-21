@@ -18,7 +18,8 @@ def ae_loss(model, x):
     ##################################################################
     # TODO 2.2: Fill in MSE loss between x and its reconstruction.
     ##################################################################
-    loss = None
+    loss = F.mse_loss(model.decoder(model.encoder(x)), x, reduction='sum')
+    loss /= x.shape[0]
     ##################################################################
     #                          END OF YOUR CODE                      #
     ##################################################################
@@ -38,9 +39,13 @@ def vae_loss(model, x, beta = 1):
     # closed form, you can find the formula here:
     # (https://stats.stackexchange.com/questions/318748/deriving-the-kl-divergence-loss-for-vaes).
     ##################################################################
-    total_loss = None
-    recon_loss = None
-    kl_loss = None
+    mu, log_std = model.encoder(x)
+    std = torch.exp(log_std)
+    latent = mu + std * torch.randn_like(std)
+    recon_loss = F.mse_loss(model.decoder(mu), x, reduction='sum')
+    recon_loss /= x.shape[0]
+    kl_loss = 0.5 * (torch.sum(mu**2) + torch.sum(std**2) - torch.sum(torch.log(std**2) + 1)) / x.shape[0]
+    total_loss = recon_loss + beta * kl_loss
     ##################################################################
     #                          END OF YOUR CODE                      #
     ##################################################################
@@ -58,7 +63,8 @@ def linear_beta_scheduler(max_epochs=None, target_val = 1):
     # linearly from 0 at epoch 0 to target_val at epoch max_epochs.
     ##################################################################
     def _helper(epoch):
-        pass
+        beta = epoch * target_val / max_epochs
+        return beta
     ##################################################################
     #                          END OF YOUR CODE                      #
     ##################################################################
