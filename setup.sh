@@ -3,8 +3,8 @@ mkdir $1/cleanfid/
 mkdir $1/cleanfid/stats/
 mkdir -p datasets/
 rm -rf datasets/* # clear directory content
-#gdown https://drive.google.com/uc?id=1hbzc_P1FuxMkcabkgn9ZKinBwW683j45&confirm=t&uuid=3d077eea-ed93-4b10-8b34-e76c99e796e8
-tar zxvf CUB_200_2011.tgz
+gdown https://drive.google.com/uc\?id\=1hbzc_P1FuxMkcabkgn9ZKinBwW683j45 -O datasets/
+tar zxvf datasets/CUB_200_2011.tgz
 mv CUB_200_2011/ datasets/
 python resize_dataset.py --input_folder datasets/CUB_200_2011/images --output_folder datasets/CUB_200_2011_32/ --res 32
 rm -rf datasets/cub.tgz

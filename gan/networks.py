@@ -296,7 +296,7 @@ class Generator(torch.jit.ScriptModule):
         z = self.dense(z)
         z = z.view(-1, 128, self.image_size, self.image_size)
         z = self.layers(z)
-        return z
+        return torch.clamp(z, -1, 1)
         ##################################################################
         #                          END OF YOUR CODE                      #
         ##################################################################

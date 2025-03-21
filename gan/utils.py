@@ -2,6 +2,7 @@ import argparse
 import torch
 from cleanfid import fid
 from matplotlib import pyplot as plt
+import torchvision
 
 
 def save_plot(x, y, xlabel, ylabel, title, filename):
