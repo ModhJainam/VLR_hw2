@@ -103,7 +103,7 @@ class Decoder(nn.Module):
         # TODO 2.1: Set up the network layers. First, compute
         # self.base_size, then create the self.fc and self.deconvs.
         ##################################################################
-        self.base_size = 4
+        self.base_size = 256 * output_shape[1] // 8 * output_shape[2] // 8
         self.deconvs = nn.Sequential(
             nn.ReLU(),
             nn.ConvTranspose2d(256, 128, kernel_size=4, stride=2, padding=1),
@@ -114,7 +114,7 @@ class Decoder(nn.Module):
             nn.ReLU(),
             nn.Conv2d(32, 3, kernel_size=3, stride=1, padding=1),
         )
-        self.fc = nn.Linear(self.latent_dim, 256*self.base_size*self.base_size)
+        self.fc = nn.Linear(self.latent_dim, self.base_size)
         ##################################################################
         #                          END OF YOUR CODE                      #
         ##################################################################
@@ -126,7 +126,7 @@ class Decoder(nn.Module):
         # self.fc, then self.deconvs.
         ##################################################################
         z = self.fc(z)
-        z = z.view(-1, 256, self.base_size, self.base_size)
+        z = z.view(-1, 256, self.output_shape[1] // 8, self.output_shape[2] // 8)
         z = self.deconvs(z)
         return z
         ##################################################################

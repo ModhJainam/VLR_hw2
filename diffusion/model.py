@@ -162,7 +162,7 @@ class DiffusionModel(nn.Module):
         # Step 5: Sample from q(x_{\tau_{i - 1}} | x_{\tau_t}, x_0)
         # HINT: Use the reparameterization trick
         z = torch.randn_like(img)
-        mu_tau_i = torch.sqrt(alpha_tau_isub1) * x_0 + epsilon_coef * pred_noise
+        mu_tau_i = torch.sqrt(alpha_tau_isub1) * x_0 + epsilon_coef.item() * pred_noise
         img = mu_tau_i + sigma_tau_i * z
         ##################################################################
         #                          END OF YOUR CODE                      #
