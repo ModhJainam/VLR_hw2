@@ -117,7 +117,7 @@ def train_model(
                 # discriminator on it.
                 ###################################################################
                 alpha = torch.rand(train_batch.size(0), 1, 1, 1).cuda()
-                interp = alpha * train_batch + (1 - alpha) * gen_out
+                interp = (alpha * train_batch + (1 - alpha) * gen_out).requires_grad_(True)
                 discrim_interp = disc(interp)
                 ##################################################################
                 #                          END OF YOUR CODE                      #

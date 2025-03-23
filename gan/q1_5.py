@@ -28,6 +28,7 @@ def compute_discriminator_loss(
         grad_outputs = grad_outputs,
         create_graph = True,
     )[0]
+    grad = grad.view(discrim_real.size(0), -1)
     loss_pt2 = lamb * torch.mean((grad.norm(2, dim = 1) - 1) ** 2)
     loss = loss_pt1 + loss_pt2
     ##################################################################
